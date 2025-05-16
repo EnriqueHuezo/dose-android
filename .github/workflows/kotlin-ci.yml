@@ -1,0 +1,79 @@
+name: Develop CI Pipeline
+
+on:
+  pull_request:
+    branches: [ "develop" ]
+
+jobs:
+  lint:
+    name: Run ktlint
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+        cache: gradle
+    
+    - name: Cache Gradle and wrapper
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+
+    - name: Grant Gradle permission
+      run: chmod +x ./gradlew
+
+    - name: Run ktlint check
+      run: ./gradlew ktlintCheck
+
+    - name: Upload ktlint report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: ktlint-report
+        path: app/build/reports/ktlint/
+
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    needs: lint  # Run only if lint passed
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+        cache: gradle
+
+    - name: Cache Gradle and wrapper
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+
+    - name: Grant Gradle permission
+      run: chmod +x ./gradlew
+
+    - name: Build and run tests
+      run: ./gradlew build test
+    
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results
+        path: app/build/reports/tests/
