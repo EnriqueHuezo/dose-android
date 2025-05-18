@@ -3,14 +3,17 @@ package com.waseefakhtar.doseapp.navigation
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.waseefakhtar.doseapp.R
 import com.waseefakhtar.doseapp.feature.history.HistoryDestination
 import com.waseefakhtar.doseapp.feature.home.navigation.HomeDestination
+import com.waseefakhtar.doseapp.feature.settings.SettingsNavigation
 
 class DoseTopLevelNavigation(private val navController: NavHostController) {
 
@@ -51,4 +54,10 @@ val TOP_LEVEL_DESTINATIONS = listOf(
         unselectedIcon = Icons.Outlined.DateRange,
         iconTextId = R.string.history
     ),
+    TopLevelDestination(
+        route = SettingsNavigation.route,
+        selectedIcon = Icons.Filled.Settings,
+        unselectedIcon = Icons.Outlined.Settings,
+        iconTextId = R.string.settings
+    )
 )
