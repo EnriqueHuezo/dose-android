@@ -33,7 +33,10 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -85,7 +88,7 @@ dependencies {
     // Gson
     implementation(libs.gson) // Serializacion GSON
     implementation(libs.kotlinx.serialization.json) // Serializacion Kotlinx
-    
+
     // Room
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
