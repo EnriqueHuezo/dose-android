@@ -85,8 +85,7 @@ dependencies {
     // Gson
     implementation(libs.gson) // Serializacion GSON
     implementation(libs.kotlinx.serialization.json) // Serializacion Kotlinx
-
-
+    
     // Room
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
