@@ -15,7 +15,7 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     private val getSelectedLanguageUseCase: GetSelectedLanguageUseCase,
     private val saveAppLanguageUseCase: SaveAppLanguageUseCase
-): ViewModel() {
+) : ViewModel() {
     private val _actualLanguage = MutableStateFlow("")
     val actualLanguage = _actualLanguage
 
