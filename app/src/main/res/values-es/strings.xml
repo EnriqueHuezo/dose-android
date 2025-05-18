@@ -27,6 +27,7 @@
     <string name="skipped">Omitido</string>
     <string name="done">Hecho</string>
     <string name="history">Historial</string>
+    <string name="settings">Configuración</string>
     <string name="no_history_yet">Aún no hay historial</string>
     <string name="back">Atrás</string>
     <string name="add">Agregar</string>
