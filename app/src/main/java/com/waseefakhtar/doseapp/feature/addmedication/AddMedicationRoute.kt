@@ -129,10 +129,9 @@ fun AddMedicationScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                modifier =
-                    Modifier
-                        .height(110.dp)
-                        .padding(vertical = 16.dp),
+                modifier = Modifier
+                    .height(110.dp)
+                    .padding(vertical = 16.dp),
                 navigationIcon = {
                     Box(modifier = Modifier.fillMaxHeight(), contentAlignment = Alignment.Center) {
                         FloatingActionButton(
@@ -163,11 +162,10 @@ fun AddMedicationScreen(
         },
         bottomBar = {
             Button(
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 16.dp)
-                        .height(56.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp)
+                    .height(56.dp),
                 onClick = {
                     validateMedication(
                         name = medicationName,
@@ -210,10 +208,9 @@ fun AddMedicationScreen(
         },
     ) { innerPadding ->
         Column(
-            modifier =
-                Modifier
-                    .padding(innerPadding)
-                    .verticalScroll(rememberScrollState()),
+            modifier = Modifier
+                .padding(innerPadding)
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             TextField(
@@ -421,25 +418,23 @@ fun FrequencyDropdownMenu(frequency: (String) -> Unit) {
         onExpandedChange = { expanded = !expanded },
     ) {
         TextField(
-            modifier =
-                Modifier
-                    .menuAnchor()
-                    .fillMaxWidth(),
+            modifier = Modifier
+                .menuAnchor()
+                .fillMaxWidth(),
             readOnly = true,
-            value =
-                when (selectedOption.stringResId) {
-                    R.string.every_n_days -> stringResource(
-                        selectedOption.stringResId,
-                        selectedOption.days
-                    )
+            value = when (selectedOption.stringResId) {
+                R.string.every_n_days -> stringResource(
+                    selectedOption.stringResId,
+                    selectedOption.days
+                )
 
-                    R.string.every_n_weeks -> stringResource(
-                        selectedOption.stringResId,
-                        selectedOption.days / 7
-                    )
+                R.string.every_n_weeks -> stringResource(
+                    selectedOption.stringResId,
+                    selectedOption.days / 7
+                )
 
-                    else -> stringResource(selectedOption.stringResId)
-                },
+                else -> stringResource(selectedOption.stringResId)
+            },
             onValueChange = {},
             label = { Text(stringResource(id = R.string.frequency)) },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
