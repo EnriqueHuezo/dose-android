@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -129,39 +130,44 @@ fun AddMedicationScreen(
         topBar = {
             TopAppBar(
                 modifier =
-                Modifier
-                    .padding(vertical = 16.dp),
+                    Modifier
+                        .height(110.dp)
+                        .padding(vertical = 16.dp),
                 navigationIcon = {
-                    FloatingActionButton(
-                        onClick = {
-                            viewModel.logEvent(eventName = AnalyticsEvents.ADD_MEDICATION_ON_BACK_CLICKED)
-                            onBackClicked()
-                        },
-                        elevation = FloatingActionButtonDefaults.elevation(0.dp, 0.dp),
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = stringResource(R.string.back),
-                        )
+                    Box(modifier = Modifier.fillMaxHeight(), contentAlignment = Alignment.Center) {
+                        FloatingActionButton(
+                            onClick = {
+                                viewModel.logEvent(eventName = AnalyticsEvents.ADD_MEDICATION_ON_BACK_CLICKED)
+                                onBackClicked()
+                            },
+                            elevation = FloatingActionButtonDefaults.elevation(0.dp, 0.dp),
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.ArrowBack,
+                                contentDescription = stringResource(R.string.back),
+                            )
+                        }
                     }
                 },
                 title = {
-                    Text(
-                        modifier = Modifier.padding(16.dp, 0.dp),
-                        text = stringResource(id = R.string.add_medication),
-                        fontWeight = FontWeight.Bold,
-                        style = MaterialTheme.typography.displaySmall,
-                    )
+                    Box(modifier = Modifier.fillMaxHeight(), contentAlignment = Alignment.Center) {
+                        Text(
+                            modifier = Modifier.padding(16.dp, 0.dp),
+                            text = stringResource(id = R.string.add_medication),
+                            fontWeight = FontWeight.Bold,
+                            style = MaterialTheme.typography.displaySmall,
+                        )
+                    }
                 },
             )
         },
         bottomBar = {
             Button(
                 modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp)
-                    .height(56.dp),
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 16.dp)
+                        .height(56.dp),
                 onClick = {
                     validateMedication(
                         name = medicationName,
@@ -205,9 +211,9 @@ fun AddMedicationScreen(
     ) { innerPadding ->
         Column(
             modifier =
-            Modifier
-                .padding(innerPadding)
-                .verticalScroll(rememberScrollState()),
+                Modifier
+                    .padding(innerPadding)
+                    .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             TextField(
@@ -416,24 +422,24 @@ fun FrequencyDropdownMenu(frequency: (String) -> Unit) {
     ) {
         TextField(
             modifier =
-            Modifier
-                .menuAnchor()
-                .fillMaxWidth(),
+                Modifier
+                    .menuAnchor()
+                    .fillMaxWidth(),
             readOnly = true,
             value =
-            when (selectedOption.stringResId) {
-                R.string.every_n_days -> stringResource(
-                    selectedOption.stringResId,
-                    selectedOption.days
-                )
+                when (selectedOption.stringResId) {
+                    R.string.every_n_days -> stringResource(
+                        selectedOption.stringResId,
+                        selectedOption.days
+                    )
 
-                R.string.every_n_weeks -> stringResource(
-                    selectedOption.stringResId,
-                    selectedOption.days / 7
-                )
+                    R.string.every_n_weeks -> stringResource(
+                        selectedOption.stringResId,
+                        selectedOption.days / 7
+                    )
 
-                else -> stringResource(selectedOption.stringResId)
-            },
+                    else -> stringResource(selectedOption.stringResId)
+                },
             onValueChange = {},
             label = { Text(stringResource(id = R.string.frequency)) },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
@@ -448,8 +454,16 @@ fun FrequencyDropdownMenu(frequency: (String) -> Unit) {
                     text = {
                         Text(
                             when (option.stringResId) {
-                                R.string.every_n_days -> stringResource(option.stringResId, option.days)
-                                R.string.every_n_weeks -> stringResource(option.stringResId, option.days / 7)
+                                R.string.every_n_days -> stringResource(
+                                    option.stringResId,
+                                    option.days
+                                )
+
+                                R.string.every_n_weeks -> stringResource(
+                                    option.stringResId,
+                                    option.days / 7
+                                )
+
                                 else -> stringResource(option.stringResId)
                             },
                         )
