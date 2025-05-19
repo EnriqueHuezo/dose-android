@@ -16,6 +16,7 @@
     <plurals name="all_set">
         <item quantity="one">Tus %1$s recordatorios están listos, con %2$s alerta de %3$s hasta %4$s.</item>
         <item quantity="many">Tus %1$s recordatorios están listos, con %2$s alertas de %3$s hasta %4$s.</item>
+        <item quantity="other">Tus %1$s recordatorios están listos, con %2$s alertas %3$s hasta %4$s.</item>
     </plurals>
     <string name="confirm">Confirmar</string>
     <string name="time_remaining">Próxima dosis en %1$s %2$s</string>
