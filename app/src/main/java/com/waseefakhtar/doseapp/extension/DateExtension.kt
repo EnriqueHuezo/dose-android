@@ -1,13 +1,35 @@
 package com.waseefakhtar.doseapp.extension
 
 import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZoneOffset
+import java.time.ZonedDateTime
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 
 fun Date.toFormattedDateString(): String {
     val sdf = SimpleDateFormat("EEEE, LLLL dd", Locale.getDefault())
     return sdf.format(this)
+}
+
+fun Long.epochToLocalTimeZoneConvertor(): Long {
+    val epochCalendar = Calendar.getInstance()
+    epochCalendar.timeZone = TimeZone.getTimeZone("UTC")
+    epochCalendar.timeInMillis = this
+    val converterCalendar = Calendar.getInstance()
+    converterCalendar.set(
+        epochCalendar.get(Calendar.YEAR),
+        epochCalendar.get(Calendar.MONTH),
+        epochCalendar.get(Calendar.DATE),
+        epochCalendar.get(Calendar.HOUR_OF_DAY),
+        epochCalendar.get(Calendar.MINUTE),
+    )
+    converterCalendar.timeZone = TimeZone.getDefault()
+    return converterCalendar.timeInMillis
 }
 
 fun Date.toFormattedMonthDateString(): String {
