@@ -70,6 +70,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.waseefakhtar.doseapp.R
 import com.waseefakhtar.doseapp.analytics.AnalyticsEvents
 import com.waseefakhtar.doseapp.domain.model.Medication
+import com.waseefakhtar.doseapp.extension.epochToLocalTimeZoneConvertor
 import com.waseefakhtar.doseapp.extension.toFormattedMonthDateString
 import com.waseefakhtar.doseapp.feature.addmedication.model.CalendarInformation
 import com.waseefakhtar.doseapp.feature.addmedication.viewmodel.AddMedicationViewModel
@@ -532,7 +533,7 @@ private fun buildDateRangeText(
     if (startDate == 0L || endDate == 0L) {
         ""
     } else {
-        "${Date(startDate).toFormattedMonthDateString()} - ${Date(endDate).toFormattedMonthDateString()}"
+        "${Date(startDate.epochToLocalTimeZoneConvertor()).toFormattedMonthDateString()} - ${Date(endDate.epochToLocalTimeZoneConvertor()).toFormattedMonthDateString()}"
     }
 
 @Composable
