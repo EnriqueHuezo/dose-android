@@ -85,7 +85,7 @@ fun SettingsScreen(
                 ) {
                     TextField(
                         modifier = Modifier.menuAnchor(),
-                        value = state,
+                        value = stringResource(LanguageEnum.getLabel(state)),
                         onValueChange = { },
                         readOnly = true,
                     )
@@ -97,7 +97,7 @@ fun SettingsScreen(
                 ) {
                     LanguageEnum.entries.forEach {
                         DropdownMenuItem(
-                            text = { Text(it.label) },
+                            text = { Text(stringResource(it.label)) },
                             onClick = {
                                 onSelectedLanguage(it.code)
                                 expanded = false
