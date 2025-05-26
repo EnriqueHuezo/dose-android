@@ -26,7 +26,7 @@ class SettingsViewModel @Inject constructor(
     private fun getLanguageCode() {
         viewModelScope.launch {
             getSelectedLanguageUseCase.execute().collect { code ->
-                _actualLanguage.update { LanguageEnum.getLabel(code) }
+                _actualLanguage.update { code }
             }
         }
     }

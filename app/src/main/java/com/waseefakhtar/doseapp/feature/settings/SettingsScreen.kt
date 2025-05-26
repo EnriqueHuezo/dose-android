@@ -1,5 +1,6 @@
 package com.waseefakhtar.doseapp.feature.settings
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.android.gms.common.internal.StringResourceValueReader
 import com.waseefakhtar.doseapp.R
 import com.waseefakhtar.doseapp.domain.model.LanguageEnum
 import com.waseefakhtar.doseapp.feature.settings.viewmodel.SettingsViewModel
@@ -85,7 +87,7 @@ fun SettingsScreen(
                 ) {
                     TextField(
                         modifier = Modifier.menuAnchor(),
-                        value = state,
+                        value = stringResource(LanguageEnum.getLabel(state)),
                         onValueChange = { },
                         readOnly = true,
                     )
@@ -97,7 +99,7 @@ fun SettingsScreen(
                 ) {
                     LanguageEnum.entries.forEach {
                         DropdownMenuItem(
-                            text = { Text(it.label) },
+                            text = { Text(stringResource(it.label)) },
                             onClick = {
                                 onSelectedLanguage(it.code)
                                 expanded = false

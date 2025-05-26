@@ -62,4 +62,9 @@
     <string name="daily">Quotidiana</string>
     <string name="weekly">Settimanalmente</string>
     <string name="monthly">Mensile</string>
+
+    <string name="language_english">Inglese</string>
+    <string name="language_spanish">Spagnolo</string>
+    <string name="language_afganistan_dari">Dari afghano</string>
+    <string name="language_italian">Italiano</string>
 </resources>
