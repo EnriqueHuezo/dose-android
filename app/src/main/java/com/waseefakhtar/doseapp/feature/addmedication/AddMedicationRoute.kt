@@ -533,11 +533,7 @@ private fun buildDateRangeText(
     if (startDate == 0L || endDate == 0L) {
         ""
     } else {
-        "${Date(startDate.epochToLocalTimeZoneConvertor()).toFormattedMonthDateString()} - ${
-            Date(
-                endDate.epochToLocalTimeZoneConvertor()
-            ).toFormattedMonthDateString()
-        }"
+        "${Date(startDate.epochToLocalTimeZoneConvertor()).toFormattedMonthDateString()} - ${Date(endDate.epochToLocalTimeZoneConvertor()).toFormattedMonthDateString()}"
     }
 
 @Composable
