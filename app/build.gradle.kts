@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.kotlin.compose)
+    id("jacoco")
     kotlin("plugin.serialization") version "2.1.20"
 }
 
@@ -37,6 +38,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+
+        getByName("debug") {
+            enableUnitTestCoverage = true
         }
     }
     compileOptions {
@@ -118,4 +123,150 @@ dependencies {
     androidTestImplementation(libs.compose.junit.ui)
     debugImplementation(libs.compose.ui.tooling.debug)
     debugImplementation(libs.compose.ui.test.manifest)
+}
+
+// Jacoco configuration
+tasks.withType<Test> {
+    configure<JacocoTaskExtension> {
+        isIncludeNoLocationClasses = true
+        excludes = listOf("jdk.internal.*")
+    }
+
+    finalizedBy("jacocoTestReport")
+}
+
+tasks.register<JacocoReport>("jacocoTestReport") {
+    dependsOn("testDebugUnitTest")
+
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports"
+
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
+
+    val fileFilter = listOf(
+        "**/R.class",
+        "**/R$*.class",
+        "**/BuildConfig.*",
+        "**/Manifest*.*",
+        "**/*Test*.*",
+        "android/**/*.*",
+        "**/*\$Lambda$*.*",
+        "**/*\$inlined$*.*",
+        "**/*Hilt_*.*",
+        "**/*_HiltModules*.*",
+        "**/*_MembersInjector*.*",
+        "**/*ComposableSingletons*.*",
+        "**/*Composer*.*",
+        "**/*_Impl*.*",
+        "**/*Dao_*.*"
+    )
+
+    val javaClasses = fileTree("$buildDir/intermediates/javac/debug/classes") {
+        exclude(fileFilter)
+    }
+    val kotlinClasses = fileTree("$buildDir/tmp/kotlin-classes/debug") {
+        exclude(fileFilter)
+    }
+
+    classDirectories.setFrom(files(javaClasses, kotlinClasses))
+    sourceDirectories.setFrom(files("${project.projectDir}/src/main/java"))
+    executionData.setFrom(
+        fileTree(buildDir) {
+            include(
+                "jacoco/testDebugUnitTest.exec",
+                "outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec" // New path for AGP 7.0+
+            )
+        }
+    )
+
+    doLast {
+        println("Jacoco report generated at: ${reports.html.outputLocation.get()}/index.html")
+    }
+}
+
+tasks.register<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
+    dependsOn("jacocoTestReport")
+
+    // Same configuration as jacocoTestReport
+    val fileFilter = listOf(
+        "**/R.class",
+        "**/R$*.class",
+        "**/BuildConfig.*",
+        "**/Manifest*.*",
+        "**/*Test*.*",
+        "android/**/*.*",
+        "**/*\$Lambda$*.*",
+        "**/*\$inlined$*.*",
+        "**/*Hilt_*.*",
+        "**/*_HiltModules*.*",
+        "**/*_MembersInjector*.*",
+        "**/*ComposableSingletons*.*",
+        "**/*Composer*.*",
+        "**/*_Impl*.*",
+        "**/*Dao_*.*"
+    )
+
+    val javaClasses = fileTree("$buildDir/intermediates/javac/debug/classes") {
+        exclude(fileFilter)
+    }
+    val kotlinClasses = fileTree("$buildDir/tmp/kotlin-classes/debug") {
+        exclude(fileFilter)
+    }
+    val mainSrc = "${project.projectDir}/src/main/java"
+
+    classDirectories.setFrom(files(javaClasses, kotlinClasses))
+    sourceDirectories.setFrom(files(mainSrc))
+    executionData.setFrom(
+        fileTree(buildDir) {
+            include(
+                "jacoco/testDebugUnitTest.exec",
+                "outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec"
+            )
+        }
+    )
+
+    doLast {
+        val reportFile = file("$buildDir/reports/jacoco/jacocoTestReport/jacocoTestReport.xml")
+        if (!reportFile.exists()) {
+            println("Jacoco XML report not found: $reportFile")
+            return@doLast
+        }
+
+        val factory = javax.xml.parsers.DocumentBuilderFactory.newInstance()
+        factory.isValidating = false
+        factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false)
+        val builder = factory.newDocumentBuilder()
+        val xml = builder.parse(reportFile)
+
+        val counters = xml.getElementsByTagName("counter")
+        var missed = 0
+        var covered = 0
+
+        for (i in 0 until counters.length) {
+            val node = counters.item(i)
+            val type = node.attributes.getNamedItem("type").nodeValue
+            if (type == "INSTRUCTION") {
+                missed = node.attributes.getNamedItem("missed").nodeValue.toInt()
+                covered = node.attributes.getNamedItem("covered").nodeValue.toInt()
+                break
+            }
+        }
+
+        val total = missed + covered
+        val coveragePercent = if (total > 0) covered * 100.0 / total else 0.0
+
+        println("INFO: Jacoco instruction coverage: ${"%.2f".format(coveragePercent)}%")
+
+        if (coveragePercent < 60.0) {
+            println("ERROR: Code coverage below minimum threshold of 60%!")
+        }
+    }
+}
+
+// Add this to ensure verification runs after tests
+tasks.named("check") {
+    dependsOn("jacocoTestCoverageVerification")
 }
