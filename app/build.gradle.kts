@@ -164,21 +164,23 @@ tasks.register<JacocoReport>("jacocoTestReport") {
         "**/*Dao_*.*"
     )
 
-    val javaClasses = fileTree("${buildDir}/intermediates/javac/debug/classes") {
+    val javaClasses = fileTree("$buildDir/intermediates/javac/debug/classes") {
         exclude(fileFilter)
     }
-    val kotlinClasses = fileTree("${buildDir}/tmp/kotlin-classes/debug") {
+    val kotlinClasses = fileTree("$buildDir/tmp/kotlin-classes/debug") {
         exclude(fileFilter)
     }
 
     classDirectories.setFrom(files(javaClasses, kotlinClasses))
     sourceDirectories.setFrom(files("${project.projectDir}/src/main/java"))
-    executionData.setFrom(fileTree(buildDir) {
-        include(
-            "jacoco/testDebugUnitTest.exec",
-            "outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec" // New path for AGP 7.0+
-        )
-    })
+    executionData.setFrom(
+        fileTree(buildDir) {
+            include(
+                "jacoco/testDebugUnitTest.exec",
+                "outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec" // New path for AGP 7.0+
+            )
+        }
+    )
 
     doLast {
         println("Jacoco report generated at: ${reports.html.outputLocation.get()}/index.html")
@@ -215,22 +217,24 @@ tasks.register<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
         "**/*Dao_*.*"
     )
 
-    val javaClasses = fileTree("${buildDir}/intermediates/javac/debug/classes") {
+    val javaClasses = fileTree("$buildDir/intermediates/javac/debug/classes") {
         exclude(fileFilter)
     }
-    val kotlinClasses = fileTree("${buildDir}/tmp/kotlin-classes/debug") {
+    val kotlinClasses = fileTree("$buildDir/tmp/kotlin-classes/debug") {
         exclude(fileFilter)
     }
     val mainSrc = "${project.projectDir}/src/main/java"
 
     classDirectories.setFrom(files(javaClasses, kotlinClasses))
     sourceDirectories.setFrom(files(mainSrc))
-    executionData.setFrom(fileTree(buildDir) {
-        include(
-            "jacoco/testDebugUnitTest.exec",
-            "outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec"
-        )
-    })
+    executionData.setFrom(
+        fileTree(buildDir) {
+            include(
+                "jacoco/testDebugUnitTest.exec",
+                "outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec"
+            )
+        }
+    )
 }
 
 // Add this to ensure verification runs after tests
