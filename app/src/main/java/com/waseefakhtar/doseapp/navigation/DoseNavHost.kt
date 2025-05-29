@@ -17,6 +17,7 @@ import com.waseefakhtar.doseapp.feature.medicationconfirm.navigation.MedicationC
 import com.waseefakhtar.doseapp.feature.medicationconfirm.navigation.medicationConfirmGraph
 import com.waseefakhtar.doseapp.feature.medicationdetail.MedicationDetailDestination
 import com.waseefakhtar.doseapp.feature.medicationdetail.medicationDetailGraph
+import com.waseefakhtar.doseapp.feature.settings.settingsGraph
 import com.waseefakhtar.doseapp.util.navigateSingleTop
 
 @Composable
@@ -51,6 +52,12 @@ fun DoseNavHost(
                 )
             }
         )
+
+        settingsGraph(
+            bottomBarVisibility = bottomBarVisibility,
+            fabVisibility = fabVisibility
+        )
+
         medicationDetailGraph(
             bottomBarVisibility = bottomBarVisibility,
             fabVisibility = fabVisibility,

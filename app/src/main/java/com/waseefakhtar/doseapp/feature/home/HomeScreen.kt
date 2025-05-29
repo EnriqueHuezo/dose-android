@@ -213,8 +213,7 @@ fun EmptyCard(
 
     Card(
         modifier = Modifier
-            .fillMaxWidth()
-            .height(156.dp),
+            .fillMaxWidth(),
         shape = RoundedCornerShape(36.dp),
         colors = cardColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -225,7 +224,7 @@ fun EmptyCard(
             navController.navigate(AddMedicationDestination.route)
         }
     ) {
-        Row(modifier = Modifier.fillMaxSize()) {
+        Row(modifier = Modifier.fillMaxWidth()) {
             Column(
                 modifier = Modifier
                     .padding(24.dp, 24.dp, 0.dp, 16.dp)
@@ -334,7 +333,10 @@ fun DatesHeader(
                 calendar.add(Calendar.DAY_OF_YEAR, -2) // Subtract one day from startDate
                 val finalStartDate = calendar.time
 
-                calendarModel = dataSource.getData(startDate = finalStartDate, lastSelectedDate = calendarModel.selectedDate.date)
+                calendarModel = dataSource.getData(
+                    startDate = finalStartDate,
+                    lastSelectedDate = calendarModel.selectedDate.date
+                )
                 logEvent.invoke(AnalyticsEvents.HOME_CALENDAR_PREVIOUS_WEEK_CLICKED)
             },
             onNextClickListener = { endDate ->
@@ -346,7 +348,10 @@ fun DatesHeader(
                 calendar.add(Calendar.DAY_OF_YEAR, 2)
                 val finalStartDate = calendar.time
 
-                calendarModel = dataSource.getData(startDate = finalStartDate, lastSelectedDate = calendarModel.selectedDate.date)
+                calendarModel = dataSource.getData(
+                    startDate = finalStartDate,
+                    lastSelectedDate = calendarModel.selectedDate.date
+                )
                 logEvent.invoke(AnalyticsEvents.HOME_CALENDAR_NEXT_WEEK_CLICKED)
             }
         )
@@ -477,7 +482,11 @@ fun DateHeader(
 }
 
 sealed class MedicationListItem {
-    data class OverviewItem(val medicationsToday: List<Medication>, val isMedicationListEmpty: Boolean) : MedicationListItem()
+    data class OverviewItem(
+        val medicationsToday: List<Medication>,
+        val isMedicationListEmpty: Boolean
+    ) : MedicationListItem()
+
     data class MedicationItem(val medication: Medication) : MedicationListItem()
     data class HeaderItem(val headerText: String) : MedicationListItem()
 }
@@ -489,12 +498,13 @@ fun PermissionDialog(
     logEvent: (String) -> Unit
 ) {
     if (askNotificationPermission && (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)) {
-        val notificationPermissionState = rememberPermissionState(Manifest.permission.POST_NOTIFICATIONS) { isGranted ->
-            when (isGranted) {
-                true -> logEvent.invoke(AnalyticsEvents.NOTIFICATION_PERMISSION_GRANTED)
-                false -> logEvent.invoke(AnalyticsEvents.NOTIFICATION_PERMISSION_REFUSED)
+        val notificationPermissionState =
+            rememberPermissionState(Manifest.permission.POST_NOTIFICATIONS) { isGranted ->
+                when (isGranted) {
+                    true -> logEvent.invoke(AnalyticsEvents.NOTIFICATION_PERMISSION_GRANTED)
+                    false -> logEvent.invoke(AnalyticsEvents.NOTIFICATION_PERMISSION_REFUSED)
+                }
             }
-        }
         if (!notificationPermissionState.status.isGranted) {
             val openAlertDialog = remember { mutableStateOf(true) }
 
@@ -545,12 +555,13 @@ fun PermissionAlarmDialog(
     val context = LocalContext.current
     val alarmManager = ContextCompat.getSystemService(context, AlarmManager::class.java)
     if (askAlarmPermission && (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE)) {
-        val alarmPermissionState = rememberPermissionState(Manifest.permission.SCHEDULE_EXACT_ALARM) { isGranted ->
-            when (isGranted) {
-                true -> logEvent.invoke(AnalyticsEvents.ALARM_PERMISSION_GRANTED)
-                false -> logEvent.invoke(AnalyticsEvents.ALARM_PERMISSION_REFUSED)
+        val alarmPermissionState =
+            rememberPermissionState(Manifest.permission.SCHEDULE_EXACT_ALARM) { isGranted ->
+                when (isGranted) {
+                    true -> logEvent.invoke(AnalyticsEvents.ALARM_PERMISSION_GRANTED)
+                    false -> logEvent.invoke(AnalyticsEvents.ALARM_PERMISSION_REFUSED)
+                }
             }
-        }
         if (alarmManager?.canScheduleExactAlarms() == false) {
             val openAlertDialog = remember { mutableStateOf(true) }
 

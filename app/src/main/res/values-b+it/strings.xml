@@ -27,6 +27,7 @@
     <string name="skipped">Saltato</string>
     <string name="done">Fatto</string>
     <string name="history">Cronologia</string>
+    <string name="settings">Impostazioni</string>
     <string name="no_history_yet">Ancora nessuna cronologia</string>
     <string name="back">Indietro</string>
     <string name="add">Aggiungi</string>
@@ -61,4 +62,9 @@
     <string name="daily">Quotidiana</string>
     <string name="weekly">Settimanalmente</string>
     <string name="monthly">Mensile</string>
+
+    <string name="language_english">Inglese</string>
+    <string name="language_spanish">Spagnolo</string>
+    <string name="language_afganistan_dari">Dari afghano</string>
+    <string name="language_italian">Italiano</string>
 </resources>
