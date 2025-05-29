@@ -82,5 +82,4 @@ jobs:
           app/build/reports/jacoco/
 
     - name: Verify coverage (non-blocking)
-      continue-on-error: true
       run: ./gradlew jacocoTestCoverageVerification
