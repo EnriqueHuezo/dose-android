@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.kotlin.compose)
     id("jacoco")
+    kotlin("plugin.serialization") version "2.1.20"
 }
 
 android {
@@ -33,7 +34,10 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
 
         getByName("debug") {
@@ -80,14 +84,15 @@ dependencies {
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.lifecycle.viewmodel.compose)
 
-    // Hilt
+    // Hilt // Koin
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     ksp(libs.hilt.androidx.compiler)
     implementation(libs.hilt.navigation.compose)
 
     // Gson
-    implementation(libs.gson)
+    implementation(libs.gson) // Serializacion GSON
+    implementation(libs.kotlinx.serialization.json) // Serializacion Kotlinx
 
     // Room
     implementation(libs.room.runtime)
@@ -106,6 +111,11 @@ dependencies {
 
     // Accompanist
     implementation(libs.accompanist.permission)
+
+    // Datastore
+    implementation(libs.androidx.datastore.preferences)
+
+    implementation(libs.androidx.appcompat)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.junit.ext)

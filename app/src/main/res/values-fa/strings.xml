@@ -22,6 +22,7 @@
     <string name="skipped">فراموش شده</string>
     <string name="done">تمام</string>
     <string name="history">تاریخچه</string>
+    <string name="settings">تنظیمات</string>
     <string name="no_history_yet">تاریخچه ای موجود نیست.</string>
     <string name="back">قبلی</string>
     <string name="add">اضافه کردن</string>
@@ -56,4 +57,9 @@
     <string name="medication_reminder_time">الان زمان مصرف داروی %s شما است. برنامه را باز کنید تا مصرف دارو ثبت شود.</string>
     <string name="cancel">بیخیال</string>
     <string name="ok">باشه</string>
+
+    <string name="language_english">انگلیسی</string>
+    <string name="language_spanish">اسپانیایی</string>
+    <string name="language_afganistan_dari">دری افغانستان</string>
+    <string name="language_italian">ایتالیایی</string>
 </resources>
