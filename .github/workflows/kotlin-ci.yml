@@ -68,12 +68,19 @@ jobs:
     - name: Grant Gradle permission
       run: chmod +x ./gradlew
 
-    - name: Build and run tests
-      run: ./gradlew build test
-    
+    - name: Build and run tests with coverage
+      run: |
+        ./gradlew build testDebugUnitTest jacocoTestReport
+
     - name: Upload test results
       if: always()
       uses: actions/upload-artifact@v4
       with:
         name: test-results
-        path: app/build/reports/tests/
+        path: |
+          app/build/reports/tests/
+          app/build/reports/jacoco/
+
+    - name: Verify coverage (non-blocking)
+      continue-on-error: true
+      run: ./gradlew jacocoTestCoverageVerification
