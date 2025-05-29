@@ -188,6 +188,8 @@ tasks.register<JacocoReport>("jacocoTestReport") {
 }
 
 tasks.register<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
+    outputs.upToDateWhen { false }
+
     dependsOn("jacocoTestReport")
 
     // Same configuration as jacocoTestReport
@@ -231,37 +233,80 @@ tasks.register<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
     doLast {
         val reportFile = file("$buildDir/reports/jacoco/jacocoTestReport/jacocoTestReport.xml")
         if (!reportFile.exists()) {
-            println("Jacoco XML report not found: $reportFile")
-            return@doLast
+            println("\u001B[31m[ERROR] Jacoco XML report not found: $reportFile\u001B[0m")
+            throw GradleException("Coverage report not found")
         }
+        // ANSI color codes
+        val RED = "\u001B[31m"
+        val YELLOW = "\u001B[33m"
+        val GREEN = "\u001B[32m"
+        val BLUE = "\u001B[34m"
+        val RESET = "\u001B[0m"
+        val BOLD = "\u001B[1m"
 
-        val factory = javax.xml.parsers.DocumentBuilderFactory.newInstance()
-        factory.isValidating = false
-        factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false)
-        val builder = factory.newDocumentBuilder()
-        val xml = builder.parse(reportFile)
-
-        val counters = xml.getElementsByTagName("counter")
-        var missed = 0
-        var covered = 0
-
-        for (i in 0 until counters.length) {
-            val node = counters.item(i)
-            val type = node.attributes.getNamedItem("type").nodeValue
-            if (type == "INSTRUCTION") {
-                missed = node.attributes.getNamedItem("missed").nodeValue.toInt()
-                covered = node.attributes.getNamedItem("covered").nodeValue.toInt()
-                break
+        try {
+            val factory = javax.xml.parsers.DocumentBuilderFactory.newInstance().apply {
+                isValidating = false
+                setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false)
             }
-        }
+            val xml = factory.newDocumentBuilder().parse(reportFile)
 
-        val total = missed + covered
-        val coveragePercent = if (total > 0) covered * 100.0 / total else 0.0
+            // Collect coverage metrics
+            val metrics = mutableMapOf<String, Triple<Int, Int, Double>>()
+            val counters = xml.getElementsByTagName("counter")
+            var totalMissed = 0
+            var totalCovered = 0
 
-        println("INFO: Jacoco instruction coverage: ${"%.2f".format(coveragePercent)}%")
+            for (i in 0 until counters.length) {
+                val node = counters.item(i)
+                val type = node.attributes.getNamedItem("type").nodeValue
+                val missed = node.attributes.getNamedItem("missed").nodeValue.toInt()
+                val covered = node.attributes.getNamedItem("covered").nodeValue.toInt()
+                totalMissed += missed
+                totalCovered += covered
+                val percentage = if (missed + covered > 0) covered * 100.0 / (covered + missed) else 0.0
+                metrics[type] = Triple(missed, covered, percentage)
+            }
 
-        if (coveragePercent < 60.0) {
-            println("ERROR: Code coverage below minimum threshold of 60%!")
+            val totalPercentage = if (totalCovered + totalMissed > 0) {
+                totalCovered * 100.0 / (totalCovered + totalMissed)
+            } else 0.0
+
+            // Print colored output
+            println("\n$BLUE$BOLD=== CODE COVERAGE REPORT ===$RESET")
+            metrics.forEach { (type, data) ->
+                val (missed, covered, percentage) = data
+                val color = when {
+                    percentage < 60.0 -> RED
+                    percentage < 80.0 -> YELLOW
+                    else -> GREEN
+                }
+                println("${type.padEnd(12)}: $color${"%.1f".format(percentage)}%$RESET ($covered covered, $missed missed)")
+            }
+
+            println("$BLUE----------------------------$RESET")
+            val totalColor = when {
+                totalPercentage < 60.0 -> RED
+                totalPercentage < 80.0 -> YELLOW
+                else -> GREEN
+            }
+            println("${BOLD}TOTAL COVERAGE:$RESET    $totalColor${"%.1f".format(totalPercentage)}%$RESET")
+            println("$BLUE============================$RESET")
+
+            // Add colored warning messages
+            when {
+                totalPercentage < 60.0 -> {
+                    println("\n$RED$BOLD[WARNING] Overall coverage is below 60% - consider adding more tests$RESET")
+                }
+                totalPercentage < 80.0 -> {
+                    println("\n$YELLOW[NOTE] Coverage could be improved (currently below 80%)$RESET")
+                }
+                else -> {
+                    println("\n$GREEN[OK] Coverage meets recommended standards$RESET")
+                }
+            }
+        } catch (e: Exception) {
+            throw GradleException("${RED}Failed to parse coverage report: ${e.message}$RESET")
         }
     }
 }
