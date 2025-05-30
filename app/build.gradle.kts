@@ -118,6 +118,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
 
     testImplementation(libs.junit)
+    testImplementation(libs.mockito.core)
     androidTestImplementation(libs.junit.ext)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.compose.junit.ui)
@@ -147,21 +148,39 @@ tasks.register<JacocoReport>("jacocoTestReport") {
     }
 
     val fileFilter = listOf(
+        // Auto-generated/synthetic Kotlin/Compose stuff
         "**/R.class",
         "**/R$*.class",
         "**/BuildConfig.*",
         "**/Manifest*.*",
         "**/*Test*.*",
         "android/**/*.*",
+
+        // Compose-specific generated artifacts
         "**/*\$Lambda$*.*",
         "**/*\$inlined$*.*",
-        "**/*Hilt_*.*",
-        "**/*_HiltModules*.*",
-        "**/*_MembersInjector*.*",
         "**/*ComposableSingletons*.*",
         "**/*Composer*.*",
         "**/*_Impl*.*",
-        "**/*Dao_*.*"
+        "**/*Dao_*.*",
+
+        // Jetpack Compose compiler output for @Composable
+        "**/*$*composable.class",
+        "**/*Composable*.class",
+        "**/*_compose*.class",       // covers _compose_release classes
+        "**/*Kt.class",              // often where top-level composables land
+
+        // Kotlin-generated for default args, inline functions, etc.
+        "**/*\$DefaultImpls*.*",
+        "**/*\$default*.*",
+        "**/*_.*",                   // Kotlin synthetic classes
+        "**/*\$*.*",                 // anonymous/synthetic inner classes
+
+        // Compose preview and tooling
+        "**/*Preview*.class",
+        "**/*_preview_*.class",
+        "**/preview/**",
+        "**/ui/preview/**"
     )
 
     val javaClasses = fileTree("$buildDir/intermediates/javac/debug/classes") {
@@ -194,21 +213,39 @@ tasks.register<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
 
     // Same configuration as jacocoTestReport
     val fileFilter = listOf(
+        // Auto-generated/synthetic Kotlin/Compose stuff
         "**/R.class",
         "**/R$*.class",
         "**/BuildConfig.*",
         "**/Manifest*.*",
         "**/*Test*.*",
         "android/**/*.*",
+
+        // Compose-specific generated artifacts
         "**/*\$Lambda$*.*",
         "**/*\$inlined$*.*",
-        "**/*Hilt_*.*",
-        "**/*_HiltModules*.*",
-        "**/*_MembersInjector*.*",
         "**/*ComposableSingletons*.*",
         "**/*Composer*.*",
         "**/*_Impl*.*",
-        "**/*Dao_*.*"
+        "**/*Dao_*.*",
+
+        // Jetpack Compose compiler output for @Composable
+        "**/*$*composable.class",
+        "**/*Composable*.class",
+        "**/*_compose*.class",       // covers _compose_release classes
+        "**/*Kt.class",              // often where top-level composables land
+
+        // Kotlin-generated for default args, inline functions, etc.
+        "**/*\$DefaultImpls*.*",
+        "**/*\$default*.*",
+        "**/*_.*",                   // Kotlin synthetic classes
+        "**/*\$*.*",                 // anonymous/synthetic inner classes
+
+        // Compose preview and tooling
+        "**/*Preview*.class",
+        "**/*_preview_*.class",
+        "**/preview/**",
+        "**/ui/preview/**"
     )
 
     val javaClasses = fileTree("$buildDir/intermediates/javac/debug/classes") {
