@@ -167,14 +167,14 @@ tasks.register<JacocoReport>("jacocoTestReport") {
         // Jetpack Compose compiler output for @Composable
         "**/*$*composable.class",
         "**/*Composable*.class",
-        "**/*_compose*.class",       // covers _compose_release classes
-        "**/*Kt.class",              // often where top-level composables land
+        "**/*_compose*.class", // covers _compose_release classes
+        "**/*Kt.class", // often where top-level composables land
 
         // Kotlin-generated for default args, inline functions, etc.
         "**/*\$DefaultImpls*.*",
         "**/*\$default*.*",
-        "**/*_.*",                   // Kotlin synthetic classes
-        "**/*\$*.*",                 // anonymous/synthetic inner classes
+        "**/*_.*", // Kotlin synthetic classes
+        "**/*\$*.*", // anonymous/synthetic inner classes
 
         // Compose preview and tooling
         "**/*Preview*.class",
@@ -232,14 +232,14 @@ tasks.register<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
         // Jetpack Compose compiler output for @Composable
         "**/*$*composable.class",
         "**/*Composable*.class",
-        "**/*_compose*.class",       // covers _compose_release classes
-        "**/*Kt.class",              // often where top-level composables land
+        "**/*_compose*.class", // covers _compose_release classes
+        "**/*Kt.class", // often where top-level composables land
 
         // Kotlin-generated for default args, inline functions, etc.
         "**/*\$DefaultImpls*.*",
         "**/*\$default*.*",
-        "**/*_.*",                   // Kotlin synthetic classes
-        "**/*\$*.*",                 // anonymous/synthetic inner classes
+        "**/*_.*", // Kotlin synthetic classes
+        "**/*\$*.*", // anonymous/synthetic inner classes
 
         // Compose preview and tooling
         "**/*Preview*.class",
