@@ -23,7 +23,7 @@ class FrequencyUtilTest {
     fun `fromDays returns EVERYDAY for undefined values`() {
         assertEquals(Frequency.EVERYDAY, Frequency.fromDays(0))
         assertEquals(Frequency.EVERYDAY, Frequency.fromDays(100))
-        assertEquals(Frequency.EVERYDAY, Frequency.fromDays(-5))
+        assertEquals(Frequency.EVERYDAY, Frequency.fromDays(-6))
     }
 
     @Test
