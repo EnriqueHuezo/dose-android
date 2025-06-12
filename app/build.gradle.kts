@@ -212,7 +212,9 @@ tasks.register<JacocoReport>("jacocoTestReport") {
         "**/MedicationNotificationReceiver.class",
         "**/App.class",
         "**/MainActivity.class",
-        "**/util/MedicationType.class"
+        "**/MedicationNotificationService.class",
+        "**/util/MedicationType.class",
+        "**/analytics/AnalyticsHelper.class"
     )
 
     val javaClasses = fileTree("$buildDir/intermediates/javac/debug/classes") {
@@ -309,7 +311,9 @@ tasks.register<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
         "**/MedicationNotificationReceiver.class",
         "**/App.class",
         "**/MainActivity.class",
-        "**/util/MedicationType.class"
+        "**/MedicationNotificationService.class",
+        "**/util/MedicationType.class",
+        "**/analytics/AnalyticsHelper.class"
     )
 
     val javaClasses = fileTree("$buildDir/intermediates/javac/debug/classes") {
