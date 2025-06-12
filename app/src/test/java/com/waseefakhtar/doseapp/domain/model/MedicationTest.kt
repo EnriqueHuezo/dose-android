@@ -1,6 +1,5 @@
 package com.waseefakhtar.doseapp.domain.model
 
-import android.os.Parcel
 import com.waseefakhtar.doseapp.util.MedicationType
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
