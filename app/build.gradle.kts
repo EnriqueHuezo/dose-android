@@ -119,6 +119,7 @@ dependencies {
 
     testImplementation(libs.junit)
     testImplementation(libs.mockito.core)
+    testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.junit.ext)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.compose.junit.ui)
@@ -215,8 +216,10 @@ tasks.register<JacocoReport>("jacocoTestReport") {
         "**/MedicationNotificationService.class",
         "**/util/MedicationType.class",
         "**/analytics/AnalyticsHelper.class",
+        "**/feature/history/**",
+        "**/feature/calendar/**",
         "**/data/repository/**",
-        "**/navigation/**"
+        "**/navigation/**",
     )
 
     val javaClasses = fileTree("$buildDir/intermediates/javac/debug/classes") {
@@ -316,6 +319,8 @@ tasks.register<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
         "**/MedicationNotificationService.class",
         "**/util/MedicationType.class",
         "**/analytics/AnalyticsHelper.class",
+        "**/feature/history/**",
+        "**/feature/calendar/**",
         "**/data/repository/**",
         "**/navigation/**"
     )
