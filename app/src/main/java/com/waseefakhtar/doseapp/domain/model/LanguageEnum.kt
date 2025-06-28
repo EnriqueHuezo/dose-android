@@ -11,7 +11,7 @@ enum class LanguageEnum(
     ITALIAN("it", "Italian");
 
     companion object {
-        private fun fromCode(code: String): LanguageEnum {
+        fun fromCode(code: String): LanguageEnum {
             return entries.firstOrNull { it.code == code } ?: DEFAULT
         }
 
