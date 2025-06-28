@@ -1,6 +1,7 @@
 package com.waseefakhtar.doseapp
 
 import androidx.lifecycle.ViewModel
+import com.waseefakhtar.doseapp.domain.model.LanguageEnum
 import com.waseefakhtar.doseapp.usecases.GetSelectedLanguageUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -16,6 +17,13 @@ class MainActivityViewModel @Inject constructor(
 ) : ViewModel() {
     fun getLanguageCode(): Flow<String> =
         getSelectedLanguageUseCase.execute()
-            .flowOn(Dispatchers.IO)
-            .map { it.ifBlank { Locale.getDefault().language } }
+            .map { storedCode ->
+                storedCode.ifBlank {
+                    val systemLang = Locale.getDefault().language
+                    val supportedLang = LanguageEnum.entries.firstOrNull { it.code == systemLang }
+                    supportedLang?.code ?: LanguageEnum.default().code
+                }
+
+                storedCode
+            }.flowOn(Dispatchers.IO)
 }
