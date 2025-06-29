@@ -1,7 +1,6 @@
 package com.waseefakhtar.doseapp.feature.settings
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -79,25 +78,23 @@ fun SettingsScreen(
                     expanded = !expanded
                 }
             ) {
-                Row(
+                TextField(
                     modifier = Modifier
-                        .fillMaxWidth()
-                ) {
-                    TextField(
-                        modifier = Modifier.menuAnchor(),
-                        value = stringResource(LanguageEnum.getLabel(state)),
-                        onValueChange = { },
-                        readOnly = true,
-                    )
-                }
+                        .menuAnchor()
+                        .fillMaxWidth(),
+                    value = state,
+                    onValueChange = { },
+                    readOnly = true,
+                )
 
                 ExposedDropdownMenu(
                     expanded = expanded,
                     onDismissRequest = { expanded = false },
+                    modifier = Modifier.exposedDropdownSize()
                 ) {
                     LanguageEnum.entries.forEach {
                         DropdownMenuItem(
-                            text = { Text(stringResource(it.label)) },
+                            text = { Text(it.label) },
                             onClick = {
                                 onSelectedLanguage(it.code)
                                 expanded = false

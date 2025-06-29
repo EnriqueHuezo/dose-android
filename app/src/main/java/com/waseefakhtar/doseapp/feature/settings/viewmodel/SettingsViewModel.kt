@@ -2,6 +2,7 @@ package com.waseefakhtar.doseapp.feature.settings.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.waseefakhtar.doseapp.domain.model.LanguageEnum
 import com.waseefakhtar.doseapp.usecases.GetSelectedLanguageUseCase
 import com.waseefakhtar.doseapp.usecases.SaveAppLanguageUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,8 +25,9 @@ class SettingsViewModel @Inject constructor(
 
     private fun getLanguageCode() {
         viewModelScope.launch {
-            getSelectedLanguageUseCase.execute().collect { code ->
-                _actualLanguage.update { code }
+            getSelectedLanguageUseCase.execute().collect { storedCode ->
+                val effectiveCode = LanguageEnum.resolveEffectiveCode(storedCode)
+                _actualLanguage.update { LanguageEnum.getLabel(effectiveCode) }
             }
         }
     }
