@@ -9,7 +9,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,18 +26,7 @@ class SettingsViewModel @Inject constructor(
     private fun getLanguageCode() {
         viewModelScope.launch {
             getSelectedLanguageUseCase.execute().collect { storedCode ->
-                val effectiveCode = when {
-                    storedCode.isBlank() -> {
-                        val systemLang = Locale.getDefault().language
-                        val isSupported = LanguageEnum.entries.any {
-                            it.code == systemLang && it != LanguageEnum.DEFAULT
-                        }
-                        if (isSupported) LanguageEnum.DEFAULT.code else LanguageEnum.ENGLISH.code
-                    }
-
-                    else -> storedCode
-                }
-
+                val effectiveCode = LanguageEnum.resolveEffectiveCode(storedCode)
                 _actualLanguage.update { LanguageEnum.getLabel(effectiveCode) }
             }
         }

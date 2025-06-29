@@ -8,7 +8,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,13 +16,6 @@ class MainActivityViewModel @Inject constructor(
 ) : ViewModel() {
     fun getLanguageCode(): Flow<String> =
         getSelectedLanguageUseCase.execute()
-            .map { storedCode ->
-                storedCode.ifBlank {
-                    val systemLang = Locale.getDefault().language
-                    val supportedLang = LanguageEnum.entries.firstOrNull { it.code == systemLang }
-                    supportedLang?.code ?: LanguageEnum.default().code
-                }
-
-                storedCode
-            }.flowOn(Dispatchers.IO)
+            .map { LanguageEnum.resolveEffectiveCode(it) }
+            .flowOn(Dispatchers.IO)
 }

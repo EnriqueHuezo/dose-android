@@ -1,5 +1,7 @@
 package com.waseefakhtar.doseapp.domain.model
 
+import java.util.Locale
+
 enum class LanguageEnum(
     val code: String,
     val label: String
@@ -21,6 +23,15 @@ enum class LanguageEnum(
 
         fun default(): LanguageEnum {
             return DEFAULT
+        }
+
+        fun resolveEffectiveCode(storedCode: String): String {
+            if (storedCode.isNotBlank()) return storedCode
+
+            val systemLang = Locale.getDefault().language
+            val isSupported = entries.any { it.code == systemLang && it != DEFAULT }
+
+            return if (isSupported) DEFAULT.code else ENGLISH.code
         }
     }
 }
