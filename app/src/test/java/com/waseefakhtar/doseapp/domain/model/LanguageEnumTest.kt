@@ -1,6 +1,5 @@
 package com.waseefakhtar.doseapp.domain.model
 
-import com.waseefakhtar.doseapp.R
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -14,26 +13,26 @@ class LanguageEnumTest {
     }
 
     @Test
-    fun `fromCode returns ENGLISH for invalid code`() {
-        assertEquals(LanguageEnum.ENGLISH, LanguageEnum.fromCode("unknown"))
-        assertEquals(LanguageEnum.ENGLISH, LanguageEnum.fromCode(""))
+    fun `fromCode returns DEFAULT for invalid code`() {
+        assertEquals(LanguageEnum.DEFAULT, LanguageEnum.fromCode("unknown"))
+        assertEquals(LanguageEnum.DEFAULT, LanguageEnum.fromCode(""))
     }
 
     @Test
-    fun `getLabel returns correct string resource id`() {
-        assertEquals(R.string.language_english, LanguageEnum.getLabel("en"))
-        assertEquals(R.string.language_spanish, LanguageEnum.getLabel("es"))
-        assertEquals(R.string.language_afganistan_dari, LanguageEnum.getLabel("fa"))
-        assertEquals(R.string.language_italian, LanguageEnum.getLabel("it"))
+    fun `getLabel returns correct string`() {
+        assertEquals("English", LanguageEnum.getLabel("en"))
+        assertEquals("Spanish", LanguageEnum.getLabel("es"))
+        assertEquals("Afganistan Dari", LanguageEnum.getLabel("fa"))
+        assertEquals("Italian", LanguageEnum.getLabel("it"))
     }
 
     @Test
-    fun `getLabel returns english label for invalid code`() {
-        assertEquals(R.string.language_english, LanguageEnum.getLabel("unknown"))
+    fun `getLabel returns default label for invalid code`() {
+        assertEquals("Default", LanguageEnum.getLabel("unknown"))
     }
 
     @Test
-    fun `default returns ENGLISH`() {
-        assertEquals(LanguageEnum.ENGLISH, LanguageEnum.default())
+    fun `default returns DEFAULT`() {
+        assertEquals(LanguageEnum.DEFAULT, LanguageEnum.default())
     }
 }

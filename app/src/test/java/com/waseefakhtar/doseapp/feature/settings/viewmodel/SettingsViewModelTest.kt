@@ -39,7 +39,7 @@ class SettingsViewModelTest {
         `when`(getSelectedLanguageUseCase.execute()).thenReturn(flowOf("es"))
         viewModel = SettingsViewModel(getSelectedLanguageUseCase, saveAppLanguageUseCase)
         dispatcher.scheduler.advanceUntilIdle()
-        assertEquals("es", viewModel.actualLanguage.value)
+        assertEquals("Spanish", viewModel.actualLanguage.value)
     }
 
     @Test

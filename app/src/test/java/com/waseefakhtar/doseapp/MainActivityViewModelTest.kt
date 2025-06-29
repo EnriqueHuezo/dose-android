@@ -1,5 +1,6 @@
 package com.waseefakhtar.doseapp
 
+import com.waseefakhtar.doseapp.domain.model.LanguageEnum
 import com.waseefakhtar.doseapp.usecases.GetSelectedLanguageUseCase
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
@@ -9,7 +10,6 @@ import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
-import java.util.Locale
 
 class MainActivityViewModelTest {
     private lateinit var getSelectedLanguageUseCase: GetSelectedLanguageUseCase
@@ -38,6 +38,7 @@ class MainActivityViewModelTest {
         val result = viewModel.getLanguageCode()
         val value = result.first()
 
-        assertEquals(Locale.getDefault().language, value)
+        val expected = LanguageEnum.resolveEffectiveCode("")
+        assertEquals(expected, value)
     }
 }
