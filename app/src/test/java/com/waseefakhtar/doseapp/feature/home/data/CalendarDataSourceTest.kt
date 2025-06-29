@@ -1,6 +1,5 @@
 package com.waseefakhtar.doseapp.feature.home.data
 
-import com.waseefakhtar.doseapp.extension.toFormattedDateString
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
