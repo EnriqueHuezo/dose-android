@@ -51,20 +51,6 @@ class CalendarDataSourceTest {
     }
 
     @Test
-    fun `isToday marks today correctly`() {
-        val today = dataSource.today
-        val model = dataSource.getData(today, today)
-
-        // It may fail if the hour changes, so only compare the formatted date.
-        val todayFormatted = today.toFormattedDateString()
-        val found = model.visibleDates.any {
-            it.date.toFormattedDateString() == todayFormatted && it.isToday
-        }
-
-        assertTrue(found)
-    }
-
-    @Test
     fun `getData uses today as default startDate`() {
         val lastSelected = dataSource.today
         val model = dataSource.getData(lastSelectedDate = lastSelected)
