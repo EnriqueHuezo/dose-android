@@ -1,5 +1,6 @@
 package com.waseefakhtar.doseapp.feature.home.data
 
+import com.waseefakhtar.doseapp.extension.toFormattedDateString
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -55,10 +56,11 @@ class CalendarDataSourceTest {
         val model = dataSource.getData(today, today)
 
         // It may fail if the hour changes, so only compare the formatted date.
-        val todayFormatted = SimpleDateFormat("yyyy-MM-dd").format(today)
+        val todayFormatted = today.toFormattedDateString()
         val found = model.visibleDates.any {
-            SimpleDateFormat("yyyy-MM-dd").format(it.date) == todayFormatted && it.isToday
+            it.date.toFormattedDateString() == todayFormatted && it.isToday
         }
+
         assertTrue(found)
     }
 
