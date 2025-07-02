@@ -6,17 +6,23 @@
     <string name="add_medication">Aggiungi Medicinale</string>
     <string name="medication_name">Nome Medicinale</string>
     <string name="dose_per_day">Dosaggio</string>
+    <string name="dose_optional">Dose (Opzionale)</string>
     <string name="recurrence">Ricorrenza</string>
+    <string name="frequency">Frequenza</string>
     <string name="end_date">Data di Fine</string>
     <string name="times_of_day">Orari del Giorno</string>
     <string name="times_for_medication">Orari per il Medicinale</string>
+    <string name="schedule">Programma</string>
     <string name="next">Avanti</string>
     <string name="value_is_empty">Inserisci un valore valido per %s</string>
     <string name="all_done">Fatto!</string>
+
     <plurals name="all_set">
         <item quantity="one">I tuoi promemoria per %1$s sono pronti, con %2$s avviso %3$s fino a %4$s.</item>
         <item quantity="many">I tuoi promemoria per %1$s sono pronti, con %2$s avvisi %3$s fino a %4$s.</item>
+        <item quantity="other">I tuoi promemoria per %1$s sono pronti, con %2$s avvisi %3$s fino a %4$s.</item>
     </plurals>
+
     <string name="confirm">Conferma</string>
     <string name="time_remaining">Prossima dose tra %1$s %2$s</string>
     <string name="days">giorni</string>
@@ -47,6 +53,9 @@
     <string name="notifications">Notifiche</string>
     <string name="notification_permission_required">Permesso di Notifica Richiesto</string>
     <string name="notification_permission_required_description_message">Per non perdere mai la tua medicina, concedi il permesso di notifica.</string>
+    <string name="alarms">Notifiche</string>
+    <string name="alarms_permission_required">Permesso di Allarme Richiesto</string>
+    <string name="alarms_permission_required_description_message">Per non perdere mai la tua medicina, concedi il permesso per gli allarmi.</string>
     <string name="allow">Consenti</string>
     <string name="medication_taken_at">Preso alle %s</string>
     <string name="medication_skipped_at">Saltato alle %s</string>
@@ -62,6 +71,42 @@
     <string name="daily">Quotidiana</string>
     <string name="weekly">Settimanalmente</string>
     <string name="monthly">Mensile</string>
+    <string name="duration">Durata</string>
+    <string name="select_duration">Seleziona Durata</string>
+
+    <plurals name="duration_days">
+        <item quantity="one">%d giorno</item>
+        <item quantity="many">%d giorni</item>
+        <item quantity="other">%d giorni</item>
+    </plurals>
+    <plurals name="duration_weeks">
+        <item quantity="one">%d settimana</item>
+        <item quantity="many">%d settimane</item>
+        <item quantity="other">%d settimane</item>
+    </plurals>
+    <plurals name="duration_months">
+        <item quantity="one">%d mese</item>
+        <item quantity="many">%d mesi</item>
+        <item quantity="other">%d mesi</item>
+    </plurals>
+    <plurals name="duration_years">
+        <item quantity="one">%d anno</item>
+        <item quantity="many">%d anni</item>
+        <item quantity="other">%d anni</item>
+    </plurals>
+
+    <string name="everyday">Ogni giorno</string>
+    <string name="every_n_days">Ogni %s giorni</string>
+    <string name="every_week">Ogni settimana</string>
+    <string name="every_n_weeks">Ogni %s settimane</string>
+    <string name="every_month">Ogni mese</string>
+    <string name="type">Tipo</string>
+    <string name="tablet">Compressa</string>
+    <string name="capsule">Capsula</string>
+    <string name="type_syrup">Sciroppo</string>
+    <string name="drops">Gocce</string>
+    <string name="spray">Spray</string>
+    <string name="gel">Gel</string>
 
     <string name="language_english">Inglese</string>
     <string name="language_spanish">Spagnolo</string>

@@ -6,7 +6,7 @@ enum class LanguageEnum(
     val code: String,
     val label: String
 ) {
-    DEFAULT("dt", "Default"),
+    DEFAULT("", "Default"),
     ENGLISH("en", "English"),
     SPANISH("es", "Spanish"),
     AFGANISTAN_DARI("fa", "Afganistan Dari"),
