@@ -34,6 +34,7 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -45,6 +46,7 @@ android {
             enableUnitTestCoverage = true
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -379,7 +381,8 @@ tasks.register<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
                 val covered = node.attributes.getNamedItem("covered").nodeValue.toInt()
                 totalMissed += missed
                 totalCovered += covered
-                val percentage = if (missed + covered > 0) covered * 100.0 / (covered + missed) else 0.0
+                val percentage =
+                    if (missed + covered > 0) covered * 100.0 / (covered + missed) else 0.0
                 metrics[type] = Triple(missed, covered, percentage)
             }
 
@@ -413,9 +416,11 @@ tasks.register<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
                 totalPercentage < 60.0 -> {
                     println("\n$RED$BOLD[WARNING] Overall coverage is below 60% - consider adding more tests$RESET")
                 }
+
                 totalPercentage < 80.0 -> {
                     println("\n$YELLOW[NOTE] Coverage could be improved (currently below 80%)$RESET")
                 }
+
                 else -> {
                     println("\n$GREEN[OK] Coverage meets recommended standards$RESET")
                 }
